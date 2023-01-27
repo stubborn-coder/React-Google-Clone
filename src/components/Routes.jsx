@@ -9,10 +9,8 @@ export const Routes = () => {
         <Switch>
           <Route path='/' element={<Navigate to="/search"/>}></Route>
           <Route path='/search' element={<Results/>}></Route>
-          <Route path='/news' element={<Results/>}></Route>
           <Route path='/images' element={<Results/>}></Route>
-          <Route path='/vidoes' element={<Results/>}></Route>
-          
+  
           {/* <Route path={["/search","/news"]} element={<Results/>}></Route> */}
         </Switch>
         

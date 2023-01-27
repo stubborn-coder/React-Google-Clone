@@ -9,8 +9,17 @@ export const Results = () => {
   const { results, isLoading, getResults, searchTerm } = useResultContext();
   const location = useLocation(); //images,new,videos
   useEffect(() => {
-    getResults('?query=JavascriptMastery&n=40')
-  }, []);
+    if(searchTerm){
+      if(location.pathname === '/images') {
+        getResults(`imagesearch?tbm=isch&query=${searchTerm}`)
+      }else if(location.pathname === '/search'){
+        getResults(`search?query=${searchTerm}`)
+      }
+    }else{
+      getResults('?search?query=JavascriptMastery&n=40')
+    }
+    // 
+  }, [searchTerm,location.pathname]);
 
   if(isLoading) return <Loading />;
   console.log(location.pathname)
@@ -35,14 +44,20 @@ export const Results = () => {
       );
     
     case '/images':
-      return 'IMAGES';
-        
-    case '/news':
-      return 'NEWS';
-    
-    case '/videos':
-      return 'VIDEOS';
-    
+      return (
+        <div className='flex flex-wrap justify-center items-center'>
+            {results?.items?.map(({thumbnailImageUrl,title,originalImageUrl},index) => (
+              <a className='sm:p-3 p-5' href={originalImageUrl} key={index} target="_blank" rel='noreferrer'>
+                <img src={thumbnailImageUrl} alt={title} loading="lazy"/>
+                <p className='w-36 break-words text-sm mt-2'>
+                  {title}
+                </p>
+              </a>
+            ))}
+        </div>
+      );
+      
+
       default:
       return "ERROR";
 
